@@ -24,4 +24,19 @@ public class PostsController {
     public Post getById(@PathVariable Long id){
         return new Post(id, "Post " + id, "Blah blah blah");
     }
+
+    @PostMapping
+    private void createPost(@RequestBody Post newPost){
+        System.out.println("Ready to add post: " + newPost);
+    }
+
+    @PutMapping("{id}")
+    private void updatePost(@PathVariable Long id, @RequestBody Post updatedPost){
+        System.out.println("Updated post: " + id);
+    }
+
+    @DeleteMapping("{id}")
+    private void deletePost(@PathVariable Long id){
+        System.out.println("Deleted post: " + id);
+    }
 }
