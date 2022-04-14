@@ -11,8 +11,8 @@ export default function PostIndex(props) {
                 <div id="posts-container">
                     ${props.posts.map(post => `<h3>${post.title}</h3>
                     <p>${post.content}</p>
-                    <button type="submit" class="btn btn-primary" id="edit-post-btn" data-id="${post.id}">Edit Post</button>
-                    <button type="submit" class="btn btn-primary" id="delete-post-btn" data-id="${post.id}">Delete Post</button>
+                    <button type="submit" class="btn btn-primary edit-post-btn" data-id="${post.id}">Edit Post</button>
+                    <button type="submit" class="btn btn-primary delete-post-btn" data-id="${post.id}">Delete Post</button>
                     `).join('')}
                 </div>
     
@@ -26,7 +26,7 @@ export default function PostIndex(props) {
                             <label for="add-post-content">Content</label>
                             <textarea class="form-control" id="add-post-content" rows="3"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary" id="add-post-btn">Submit Post</button>
+                        <button type="submit" class="btn btn-primary" id="add-post-btn">Submit New Post</button>
                     </form>
                 </div>
             </div>
@@ -62,11 +62,53 @@ function submitPost() {
 }
 
 function editPost() {
+    $('.edit-post-btn').click(function(){
 
+        let title = $('#add-post-title').val();
+        let content = $('#add-post-content').val();
+        let post = {
+            title,
+            content
+        }
+
+        let postId = this.getAttribute('data-id')
+
+        let request = {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(post)
+        }
+
+        fetch(`http://localhost:8080/api/posts/${postId}`, request)
+            .then(res => {
+                console.log(res.status);
+                createView("/posts")
+            }).catch(error => {
+            console.log(error);
+            createView("/posts");
+        });
+    })
 }
 
 function deletePost() {
+    $('.delete-post-btn').click(function(){
 
+        let postId = this.getAttribute('data-id')
+
+        let request = {
+            method: "DELETE"
+        }
+
+        fetch(`http://localhost:8080/api/posts/${postId}`, request)
+            .then(res => {
+                console.log(res.status);
+                createView("/posts")
+            }).catch(error => {
+            console.log(error);
+            createView("/posts");
+        });
+
+    })
 }
 
 export function PostsEvent(){
