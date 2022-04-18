@@ -24,7 +24,7 @@ export default function PostIndex(props) {
                         </div>
                         <div class="form-group">
                             <label for="add-post-content">Content</label>
-                            <textarea class="form-control" id="add-post-content" rows="3"></textarea>
+                            <textarea class="form-control" id="add-post-content" rows="3" placeholder="Enter Content"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary" id="add-post-btn">Submit New Post</button>
                     </form>
