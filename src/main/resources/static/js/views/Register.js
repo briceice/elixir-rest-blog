@@ -1,4 +1,5 @@
 import CreateView from "../createView.js"
+import createView from "../createView.js";
 
 export default function Register(props) {
     return `
@@ -26,27 +27,33 @@ export default function Register(props) {
 }
 
 export function RegisterEvent(){
-    $("#register-btn").click(function(){
+    $("#register-btn").click(function(){ // event listener
 
+        // create a new User object from the values of the input fields
         let newUser = {
             username: $("#username").val(),
             email: $("#email").val(),
             password: $("#password").val()
         }
 
+        // logs the newly created user to verify
         console.log(newUser);
 
+        // setup request
         let request = {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(newUser)
         }
 
+        // send request
         fetch("http://localhost:8080/api/users", request)
             .then(response => {
                 console.log(response.status);
                 CreateView("/");
-            })
-
+            }).catch(error => {
+                console.log(error);
+                createView("/");
+        });
     })
 }

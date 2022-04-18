@@ -34,7 +34,7 @@ export default function router(URI) {
             state: {},
             uri: '/register',
             title: 'Register',
-            viewEvent: RegisterEvent
+            viewEvent: RegisterEvent // User Register callback
         },
         '/posts': {
             returnView: PostIndex,
