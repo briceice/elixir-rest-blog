@@ -3,6 +3,8 @@ package com.example.restblog.web;
 import com.example.restblog.data.User;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,8 @@ public class UsersController {
 
     @GetMapping("{id}")
     private User getById(@PathVariable Long id){
-        return new User(id, "username", "email", "password", LocalDate.now(), User.Role.USER);
+        User user = new User(id, "username", "email", "password", LocalDate.now(), User.Role.USER);
+        return user;
     }
 
     @PostMapping
@@ -34,6 +37,11 @@ public class UsersController {
     @PutMapping("{id}")
     private void updateUser(@PathVariable Long id, @RequestBody User updatedUser){
         System.out.println("Updated user: " + updatedUser + " id: " + id);
+    }
+
+    @PutMapping("{id}/updatePassword")
+    private void updatePassword( @PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword){
+        System.out.printf("Trying to update user password of id: %d, old password: %s, new password: %s\n", id, oldPassword, newPassword);
     }
 
     @DeleteMapping("{id}")
