@@ -12,7 +12,8 @@ export default function UserIndex(props) {
                     <p class="username" data-id="${props.user.id}">Username: ${props.user.username}</p>
                     <p class="email" data-id="${props.user.id}">Email: ${props.user.email}</p>
                     <p class="password" data-id="${props.user.id}">Password: ${props.user.password}</p>
-                    <p class="posts" data-id="${props.user.id}">Posts: ${props.user.posts}</p>
+                    <p class="posts" data-id="${props.user.id}">Posts: ${props.user.posts.map(post => `<span>${post.title}</span>
+                    `).join(', ')}</p>
                 </div>
                 <div id="edit-user-container">
                     <form>
