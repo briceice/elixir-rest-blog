@@ -17,15 +17,15 @@ public class UsersController {
     @GetMapping
     private List<User> getAll(){
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User(1L, "user1", "email1", "password1", LocalDate.now(), User.Role.USER));
-        users.add(new User(2L, "user2", "email2", "password2", LocalDate.now(), User.Role.USER));
-        users.add(new User(3L, "user3", "email3", "password3", LocalDate.now(), User.Role.ADMIN));
+        users.add(new User(1L, "user1", "email1", "password1", LocalDate.now(), User.Role.USER, null));
+        users.add(new User(2L, "user2", "email2", "password2", LocalDate.now(), User.Role.USER, null));
+        users.add(new User(3L, "user3", "email3", "password3", LocalDate.now(), User.Role.ADMIN, null));
         return users;
     }
 
     @GetMapping("{id}")
     private User getById(@PathVariable Long id){
-        User user = new User(id, "username", "email", "password", LocalDate.now(), User.Role.USER);
+        User user = new User(id, "username", "email", "password", LocalDate.now(), User.Role.USER, null);
         return user;
     }
 

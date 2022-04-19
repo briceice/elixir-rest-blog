@@ -9,11 +9,10 @@ export default function UserIndex(props) {
         <main>
             <div class="container-fluid">
                 <div id="user-data-container">
-                    ${props.users.map(user => `
-                    <p class="username" data-id="${user.id}">Username: ${user.username}</p>
-                    <p class="email" data-id="${user.id}">Email: ${user.email}</p>
-                    <p class="password" data-id="${user.id}">Password: ${user.password}</p>
-                    `).join('')}
+                    <p class="username" data-id="${props.user.id}">Username: ${props.user.username}</p>
+                    <p class="email" data-id="${props.user.id}">Email: ${props.user.email}</p>
+                    <p class="password" data-id="${props.user.id}">Password: ${props.user.password}</p>
+                    <p class="posts" data-id="${props.user.id}">Posts: ${props.user.posts}</p>
                 </div>
                 <div id="edit-user-container">
                     <form>
