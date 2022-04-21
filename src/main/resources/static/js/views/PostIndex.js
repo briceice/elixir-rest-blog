@@ -1,7 +1,6 @@
 import createView from "../createView.js";
 
 export default function PostIndex(props) {
-    //                    <p>Author: ${post.user.username}</p>
     // language=HTML
     return `
         <header>
@@ -12,6 +11,7 @@ export default function PostIndex(props) {
                 <div id="posts-container">
                     ${props.posts.map(post => `<h3>${post.title}</h3>
                     <p>${post.content}</p>
+                    <p>Author: ${post.author.username}</p>
                     <button type="submit" class="btn btn-primary edit-post-btn" data-id="${post.id}">Edit Post</button>
                     <button type="submit" class="btn btn-primary delete-post-btn" data-id="${post.id}">Delete Post</button>
                     `).join('')}

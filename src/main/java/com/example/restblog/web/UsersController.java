@@ -1,6 +1,5 @@
 package com.example.restblog.web;
 
-import com.example.restblog.data.Post;
 import com.example.restblog.data.User;
 import com.example.restblog.data.UsersRepository;
 import org.springframework.web.bind.annotation.*;
@@ -8,16 +7,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api/users", headers = "Accept=application/json")
 public class UsersController {
 
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
 
     public UsersController(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
@@ -29,14 +27,13 @@ public class UsersController {
     }
 
     @GetMapping("{id}")
-    private User getById(@PathVariable Long id){
-        // TODO: getbyid not working, path parameter?
-        return usersRepository.getById(id);
+    private Optional<User> getById(@PathVariable Long id){
+        return usersRepository.findById(id);
     }
 
     @PostMapping
     private void createUser(@RequestBody User newUser){
-        User userToAdd = new User(newUser.getUsername(), newUser.getEmail(), newUser.getPassword());
+        User userToAdd = newUser;
         userToAdd.setCreatedAt(LocalDate.now());
         userToAdd.setRole(User.Role.USER);
         usersRepository.save(userToAdd);
@@ -57,7 +54,9 @@ public class UsersController {
 
     @PutMapping("{id}/updatePassword")
     private void updatePassword( @PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword){
-        // TODO: integrate database into updatePassword
+        User userToUpdate = usersRepository.getById(id);
+        userToUpdate.setPassword(newPassword);
+        usersRepository.save(userToUpdate);
         System.out.printf("Trying to update user password of id: %d, old password: %s, new password: %s\n", id, oldPassword, newPassword);
     }
 

@@ -2,21 +2,23 @@ package com.example.restblog.web;
 
 import com.example.restblog.data.Post;
 import com.example.restblog.data.PostsRepository;
-import com.example.restblog.data.User;
+import com.example.restblog.data.UsersRepository;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api/posts", headers = "Accept=application/json")
 public class PostsController {
 
-    private PostsRepository postsRepository;
+    private final PostsRepository postsRepository;
+    private final UsersRepository usersRepository;
 
-    public PostsController(PostsRepository postsRepository) {
+    public PostsController(PostsRepository postsRepository, UsersRepository usersRepository) {
         this.postsRepository = postsRepository;
+        this.usersRepository = usersRepository;
     }
 
     @GetMapping
@@ -25,14 +27,14 @@ public class PostsController {
     }
 
     @GetMapping("{id}")
-    public Post getById(@PathVariable Long id){
-        return postsRepository.getById(id);
+    public Optional<Post> getById(@PathVariable Long id){
+        return postsRepository.findById(id);
     }
 
     @PostMapping
     private void createPost(@RequestBody Post newPost){
-        Post postToAdd = new Post(newPost.getTitle(), newPost.getContent());
-        postsRepository.save(postToAdd);
+        newPost.setAuthor(usersRepository.getById(1L));
+        postsRepository.save(newPost);
         System.out.println("Post created");
     }
 

@@ -1,5 +1,6 @@
 package com.example.restblog.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,11 +21,8 @@ public class Post {
     private String title;
     @Column(nullable = false)
     private String content;
-//    private User user;
+    @ManyToOne
+    @JsonIgnoreProperties({"posts", "password"})
+    private User author;
 
-
-    public Post(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
 }
