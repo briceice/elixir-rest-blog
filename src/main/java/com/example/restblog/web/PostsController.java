@@ -1,10 +1,10 @@
 package com.example.restblog.web;
 
-import com.example.restblog.data.Post;
-import com.example.restblog.data.PostsRepository;
-import com.example.restblog.data.UsersRepository;
+import com.example.restblog.data.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,10 +15,12 @@ public class PostsController {
 
     private final PostsRepository postsRepository;
     private final UsersRepository usersRepository;
+    private final CategoriesRepository categoriesRepository;
 
-    public PostsController(PostsRepository postsRepository, UsersRepository usersRepository) {
+    public PostsController(PostsRepository postsRepository, UsersRepository usersRepository, CategoriesRepository categoriesRepository) {
         this.postsRepository = postsRepository;
         this.usersRepository = usersRepository;
+        this.categoriesRepository = categoriesRepository;
     }
 
     @GetMapping
@@ -34,6 +36,10 @@ public class PostsController {
     @PostMapping
     private void createPost(@RequestBody Post newPost){
         newPost.setAuthor(usersRepository.getById(1L));
+        List<Category> categories = new ArrayList<>();
+        categories.add(categoriesRepository.findCategoryByName("food"));
+        categories.add(categoriesRepository.findCategoryByName("music"));
+        newPost.setCategories(categories);
         postsRepository.save(newPost);
         System.out.println("Post created");
     }
