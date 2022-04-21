@@ -3,6 +3,7 @@ package com.example.restblog.web;
 import com.example.restblog.data.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -57,5 +58,10 @@ public class PostsController {
     private void deletePost(@PathVariable Long id){
         postsRepository.deleteById(id);
         System.out.println("Post deleted");
+    }
+
+    @GetMapping("searchByTitle")
+    private List<Post> searchByTitle(@RequestParam String string){
+        return postsRepository.searchByTitleLike(string);
     }
 }
