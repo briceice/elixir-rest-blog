@@ -1,6 +1,7 @@
 package com.example.restblog.web;
 
 import com.example.restblog.data.*;
+import com.example.restblog.services.EmailService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
@@ -17,11 +18,14 @@ public class PostsController {
     private final PostsRepository postsRepository;
     private final UsersRepository usersRepository;
     private final CategoriesRepository categoriesRepository;
+    private final EmailService emailService;
 
-    public PostsController(PostsRepository postsRepository, UsersRepository usersRepository, CategoriesRepository categoriesRepository) {
+
+    public PostsController(PostsRepository postsRepository, UsersRepository usersRepository, CategoriesRepository categoriesRepository, EmailService emailService) {
         this.postsRepository = postsRepository;
         this.usersRepository = usersRepository;
         this.categoriesRepository = categoriesRepository;
+        this.emailService = emailService;
     }
 
     @GetMapping
@@ -43,6 +47,7 @@ public class PostsController {
         newPost.setCategories(categories);
         postsRepository.save(newPost);
         System.out.println("Post created");
+        emailService.prepareAndSend(newPost, "New Post", "A new post was created");
     }
 
     @PutMapping("{id}")
@@ -61,7 +66,7 @@ public class PostsController {
     }
 
     @GetMapping("searchByTitle")
-    private List<Post> searchByTitle(@RequestParam String string){
-        return postsRepository.searchByTitleLike(string);
+    private List<Post> searchByTitle(@RequestParam String term){
+        return postsRepository.searchByTitleLike(term);
     }
 }

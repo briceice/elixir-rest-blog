@@ -4,34 +4,46 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Collection;
 
+@Entity
+@Table(name="users")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@Entity
-@Table(name = "users")
 public class User {
+    public enum Role {USER, ADMIN}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
     @Column(nullable = false)
     private String username;
-    @Column(nullable = false)
-    private String email;
-    @Column(nullable = false)
-    private String password;
-    @Column(nullable = false)
-    private LocalDate createdAt;
-    @Column(nullable = false)
-    private Role role;
-    @OneToMany(mappedBy = "author")
-    @JsonIgnoreProperties("author")
-    private Collection<Post> posts;
 
-    public enum Role {USER, ADMIN}
+    @Email
+    @NotEmpty
+    private String email;
+
+    //    @JsonIgnore
+    @ToString.Exclude
+    private String password;
+
+    @Column
+    private LocalDate createdAt;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @JsonIgnoreProperties("author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @ToString.Exclude
+    private Collection<Post> posts;
 }
