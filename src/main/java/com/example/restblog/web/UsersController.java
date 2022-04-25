@@ -3,6 +3,7 @@ package com.example.restblog.web;
 import com.example.restblog.data.User;
 import com.example.restblog.data.UsersRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,6 +33,12 @@ public class UsersController {
     @GetMapping("{id}")
     private Optional<User> getById(@PathVariable Long id){
         return usersRepository.findById(id);
+    }
+
+    @GetMapping("me")
+    private User getMyInfo(OAuth2Authentication auth){
+        String email = auth.getName();
+        return usersRepository.findUserByEmail(email);
     }
 
     @PostMapping
