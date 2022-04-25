@@ -41,7 +41,7 @@ public class UsersController {
         return usersRepository.findUserByEmail(email);
     }
 
-    @PostMapping
+    @PostMapping("create")
     private void createUser(@RequestBody User newUser){
         newUser.setCreatedAt(LocalDate.now());
         newUser.setRole(User.Role.USER);

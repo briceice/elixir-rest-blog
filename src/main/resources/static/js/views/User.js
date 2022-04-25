@@ -1,4 +1,5 @@
 import createView from "../createView.js";
+import {getHeaders} from "../auth.js";
 
 export default function UserIndex(props) {
     console.log("The frontend did it. HER FAULT");
@@ -36,7 +37,8 @@ function editPassword(){
         let newPassword = $('#edit-user-password').val();
 
         let request = {
-            method: "PUT"
+            method: "PUT",
+            headers: getHeaders()
         }
         fetch(`http://localhost:8080/api/users/${id}/updatePassword?newPassword=${newPassword}`, request)
             .then(res => {
