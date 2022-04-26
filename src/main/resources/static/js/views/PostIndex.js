@@ -11,13 +11,14 @@ export default function PostIndex(props) {
             <div class="container-fluid">
                 <div id="posts-container">
                     ${props.posts.map(post => `<h3>${post.title}</h3>
-                    <p>${post.content}</p>
                     <p>Author: ${post.author.username}</p>
+                    <p>Categories: ${post.categories.map(category => category.name)}</p>
+                    <p>${post.content}</p>
                     <button type="submit" class="btn btn-primary edit-post-btn" data-id="${post.id}">Edit Post</button>
                     <button type="submit" class="btn btn-primary delete-post-btn" data-id="${post.id}">Delete Post</button>
                     `).join('')}
                 </div>
-    
+
                 <div id="add-post-container">
                     <form>
                         <div class="form-group">
@@ -28,6 +29,14 @@ export default function PostIndex(props) {
                             <label for="add-post-content">Content</label>
                             <textarea class="form-control" id="add-post-content" rows="3" placeholder="Enter Content"></textarea>
                         </div>
+                        <div>
+                            ${props.categories.map(category => `
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="${category.id}" value="${category.id}">
+                                <label class="form-check-label" for="${category.id}">${category.name}</label>
+                            </div>
+                            `).join('')}
+                        </div>
                         <button type="submit" class="btn btn-primary" id="add-post-btn">Submit New Post</button>
                     </form>
                 </div>
@@ -37,7 +46,7 @@ export default function PostIndex(props) {
 }
 
 function submitPost() {
-    $('#add-post-btn').click(function(){
+    $('#add-post-btn').click(function () {
 
         let title = $('#add-post-title').val();
         let content = $('#add-post-content').val();
@@ -57,14 +66,14 @@ function submitPost() {
                 console.log(res.status);
                 createView("/posts")
             }).catch(error => {
-                console.log(error);
-                createView("/posts");
+            console.log(error);
+            createView("/posts");
         });
     })
 }
 
 function editPost() {
-    $('.edit-post-btn').click(function(){
+    $('.edit-post-btn').click(function () {
 
         let title = $('#add-post-title').val();
         let content = $('#add-post-content').val();
@@ -93,7 +102,7 @@ function editPost() {
 }
 
 function deletePost() {
-    $('.delete-post-btn').click(function(){
+    $('.delete-post-btn').click(function () {
 
         let postId = this.getAttribute('data-id')
 
@@ -114,7 +123,7 @@ function deletePost() {
     })
 }
 
-export function PostsEvent(){
+export function PostsEvent() {
     submitPost();
     editPost();
     deletePost();

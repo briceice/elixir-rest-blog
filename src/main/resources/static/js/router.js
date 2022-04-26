@@ -57,7 +57,8 @@ export default function router(URI) {
         '/posts': {
             returnView: PostIndex,
             state: {
-                posts: '/api/posts'
+                posts: '/api/posts',
+                categories: '/api/posts/categories'
             },
             uri: '/posts',
             title: 'All Posts',

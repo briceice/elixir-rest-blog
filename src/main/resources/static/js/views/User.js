@@ -20,9 +20,9 @@ export default function UserIndex(props) {
                     <form>
                         <div class="form-group">
                             <label for="edit-user-password">Change Password</label>
-                            <input type="text" class="form-control" id="edit-user-password" placeholder="Enter New Password">
+                            <input type="password" class="form-control" id="edit-user-password" placeholder="Enter New Password">
                         </div>
-                        <button type="submit" class="btn btn-primary" id="edit-password-btn">Submit</button>
+                        <button type="submit" class="btn btn-primary" id="edit-password-btn" data-id="${props.user.id}">Submit</button>
                     </form>
                 </div>
             </div>
@@ -33,7 +33,7 @@ export default function UserIndex(props) {
 function editPassword(){
     $('#edit-password-btn').click(function(){
 
-        let id = 1;
+        let id = this.getAttribute('data-id');
         let newPassword = $('#edit-user-password').val();
 
         let request = {

@@ -55,7 +55,7 @@ public class UsersController {
         User userToUpdate = usersRepository.getById(id);
         userToUpdate.setUsername(updatedUser.getUsername());
         userToUpdate.setEmail(updatedUser.getEmail());
-        userToUpdate.setPassword(updatedUser.getPassword());
+        userToUpdate.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         userToUpdate.setCreatedAt(updatedUser.getCreatedAt());
         userToUpdate.setRole(updatedUser.getRole());
         usersRepository.save(userToUpdate);
@@ -65,7 +65,7 @@ public class UsersController {
     @PutMapping("{id}/updatePassword")
     private void updatePassword( @PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword){
         User userToUpdate = usersRepository.getById(id);
-        userToUpdate.setPassword(newPassword);
+        userToUpdate.setPassword(passwordEncoder.encode(newPassword));
         usersRepository.save(userToUpdate);
         System.out.printf("Trying to update user password of id: %d, old password: %s, new password: %s\n", id, oldPassword, newPassword);
     }

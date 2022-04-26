@@ -72,4 +72,9 @@ public class PostsController {
     private List<Post> searchByTitle(@RequestParam String term){
         return postsRepository.searchByTitleLike(term);
     }
+
+    @GetMapping("categories")
+    private List<Category> getCategories() {
+        return categoriesRepository.findAll();
+    }
 }

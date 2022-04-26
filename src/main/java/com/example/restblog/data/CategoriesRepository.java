@@ -6,4 +6,6 @@ public interface CategoriesRepository extends JpaRepository<Category, Long> {
 
     Category findCategoryByName(String name);
 
+    Category findCategoryById(long id);
+
 }
