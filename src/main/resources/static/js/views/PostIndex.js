@@ -32,8 +32,8 @@ export default function PostIndex(props) {
                         <div>
                             ${props.categories.map(category => `
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="${category.id}" value="${category.id}">
-                                <label class="form-check-label" for="${category.id}">${category.name}</label>
+                                <input class="form-check-input" type="checkbox" id="category-${category.id}" value="${category.id}">
+                                <label class="form-check-label" for="category-${category.id}">${category.name}</label>
                             </div>
                             `).join('')}
                         </div>
